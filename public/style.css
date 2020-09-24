@@ -3,8 +3,8 @@
 body {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
-	color: #222;
-	background-color: #FaFaFa;
+	color: #3b3a30;
+	background-color: #c0ded9;
 	text-align: center;
 	line-height: 1.4em;
 }
@@ -32,7 +32,7 @@ code {
   font-family: monospace;
   padding: 2px;
   color: black;
-  background-color: #fff;
+  background-color: #eaece5;
 }
 ol {
 	list-style-position: inside;
@@ -66,6 +66,11 @@ label {
 
 input {
   padding: 5px;
+  background-color:#eaece5;
+}
+
+input[type=submit] {
+  background-color: #b2c2bf;
 }
 
 input[type=text] {

@@ -12,36 +12,70 @@
    <body>
       <div class="container">
         <h2>API Project: URL Shortener Microservice</h2>
-        <h3>User Story: </h3>
-        <ol>
-          <li>I can POST a URL to <code>[project_url]/api/shorturl/new</code> and I will receive a shortened URL in the JSON response.<br>Example : <code>{"original_url":"www.google.com","short_url":1}</code></li>
-          <li>If I pass an invalid URL that doesn't follow the <code>http(s)://www.example.com(/more/routes)</code> format, the JSON response will contain an error like <code>{"error":"invalid URL"}</code><br>
-          HINT: to be sure that the submitted url points to a valid site you can use the function <code>dns.lookup(host, cb)</code> from the <code>dns</code> core module.</li>
-          <li>When I visit the shortened URL, it will redirect me to my original link.</li>
-        </ol>
         
         <h3>Short URL Creation </h3>
         <p>
-          example: <code>POST [project_url]/api/shorturl/new</code> - <code>https://www.google.com</code>
+          Enter a URL below (must begin with 'http://' or 'https://') and click the "POST" button. 
         </p>
-        <form action="api/shorturl/new" method="POST">
+        <form action="/api/shorturl/new" method="POST">
           <label for="url_input">URL to be shortened</label>
           <input id="url_input" type="text" name="url" value="https://www.freecodecamp.org">
-          <input type="submit" value="POST URL">
+          <input id="submit-button" type="submit" value="POST URL">
+          <p style="width: 100%;"><code id="disp-result" style="width: 100%;"></code></p>
         </form>
         <h3>Example Usage:</h3>
-        <a href="https://url-shortener.freecodecamp.repl.co/api/shorturl/3">
-          [this_project_url]/api/shorturl/3
+        <a href="https://fcc-backend-url-shortener.kpworthi.repl.co/api/shorturl/3">
+          https://fcc-backend-url-shortener.kpworthi.repl.co/api/shorturl/3
         </a>
 
         <h3>Will Redirect to:</h3>
-        <p>https://forum.freecodecamp.org/</p>
+        <p>http://www.bash.org</p>
       </div>
       <div class="footer">
         <p>
-          by <a href="https://www.freecodecamp.org">freeCodeCamp</a>
-        </p>
+          initial set-up
+          <a href="https://www.freecodecamp.org">freeCodeCamp</a>
+          <br>
+          completion of api
+          <a href="codepen.io/kpworthi">Kevan Worthington</a>        </p>
       </div>
+
+      <script>
+        let reqURL = "https://fcc-backend-url-shortener.kpworthi.repl.co/api/shorturl/new";
+        let urlBox = document.querySelector("#url_input");
+
+        document.querySelector("#submit-button")
+          .onclick = (e) => {
+            let request = new XMLHttpRequest();
+            let info = urlBox.value;
+            e.preventDefault();
+            request.open("POST", reqURL, true);
+            request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.send(`url=${info}`);
+
+            request.onreadystatechange = function () {
+              if(request.readyState === XMLHttpRequest.DONE) {
+                var status = request.status;
+                if (status === 0 || status === 200) {
+                  console.log("Completed!");
+                  let resp = JSON.parse(request.response);
+                  if(!resp.error){
+                    document.querySelector("#disp-result")
+                            .textContent = "New short url is: " +
+                                  resp.url;
+                  } else {
+                    document.querySelector("#disp-result")
+                            .textContent = "Error: " +
+                                  resp.error;
+                  }
+                } else {
+                  throw new Error("Help! Issue with request.");
+                }
+              }
+            };
+
+          };
+      </script>
    </body>
 
 
